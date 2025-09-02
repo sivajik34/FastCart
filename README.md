@@ -1,0 +1,2 @@
+# FastCart
+FastAPI based ecommerce
