@@ -2,7 +2,10 @@ name: Smokeshow
 
 on:
   workflow_run:
-    workflows: [Test Backend]
+    workflows: 
+      - Test User Service
+      - Test Order Service
+      - Test Cart Service
     types: [completed]
 
 jobs:
@@ -18,18 +21,61 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+
       - run: pip install smokeshow
-      - uses: actions/download-artifact@v5
+
+      # Download coverage reports for each microservice
+      - name: Download User Service Coverage
+        uses: actions/download-artifact@v5
         with:
-          name: coverage-html
-          path: backend/htmlcov
+          name: coverage-html-user-service
+          path: services/user-service/htmlcov
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
-      - run: smokeshow upload backend/htmlcov
+
+      - name: Download Order Service Coverage
+        uses: actions/download-artifact@v5
+        with:
+          name: coverage-html-order-service
+          path: services/order-service/htmlcov
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Download Cart Service Coverage
+        uses: actions/download-artifact@v5
+        with:
+          name: coverage-html-cart-service
+          path: services/cart-service/htmlcov
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      # Upload coverage reports with Smokeshow
+      - name: Upload User Service Coverage
+        run: smokeshow upload services/user-service/htmlcov
         env:
-          SMOKESHOW_GITHUB_STATUS_DESCRIPTION: Coverage {coverage-percentage}
+          SMOKESHOW_GITHUB_STATUS_DESCRIPTION: User Service Coverage {coverage-percentage}
           SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 90
-          SMOKESHOW_GITHUB_CONTEXT: coverage
+          SMOKESHOW_GITHUB_CONTEXT: user-service-coverage
+          SMOKESHOW_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SMOKESHOW_GITHUB_PR_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          SMOKESHOW_AUTH_KEY: ${{ secrets.SMOKESHOW_AUTH_KEY }}
+
+      - name: Upload Order Service Coverage
+        run: smokeshow upload services/order-service/htmlcov
+        env:
+          SMOKESHOW_GITHUB_STATUS_DESCRIPTION: Order Service Coverage {coverage-percentage}
+          SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 90
+          SMOKESHOW_GITHUB_CONTEXT: order-service-coverage
+          SMOKESHOW_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SMOKESHOW_GITHUB_PR_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          SMOKESHOW_AUTH_KEY: ${{ secrets.SMOKESHOW_AUTH_KEY }}
+
+      - name: Upload Cart Service Coverage
+        run: smokeshow upload services/cart-service/htmlcov
+        env:
+          SMOKESHOW_GITHUB_STATUS_DESCRIPTION: Cart Service Coverage {coverage-percentage}
+          SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 90
+          SMOKESHOW_GITHUB_CONTEXT: cart-service-coverage
           SMOKESHOW_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SMOKESHOW_GITHUB_PR_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
           SMOKESHOW_AUTH_KEY: ${{ secrets.SMOKESHOW_AUTH_KEY }}

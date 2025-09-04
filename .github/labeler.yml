@@ -1,25 +1,45 @@
 docs:
   - all:
-    - changed-files:
-      - any-glob-to-any-file:
-        - '**/*.md'
-      - all-globs-to-all-files:
-        - '!frontend/**'
-        - '!backend/**'
-        - '!.github/**'
-        - '!scripts/**'
-        - '!.gitignore'
-        - '!.pre-commit-config.yaml'
+      - changed-files:
+          - any-glob-to-any-file:
+              - '**/*.md'
+          - all-globs-to-all-files:
+              - '!frontend/**'
+              - '!services/**'
+              - '!.github/**'
+              - '!scripts/**'
+              - '!.gitignore'
+              - '!.pre-commit-config.yaml'
 
 internal:
   - all:
-    - changed-files:
+      - changed-files:
+          - any-glob-to-any-file:
+              - .github/**
+              - scripts/**
+              - .gitignore
+              - .pre-commit-config.yaml
+          - all-globs-to-all-files:
+              - '!./**/*.md'
+              - '!frontend/**'
+              - '!services/**'
+
+frontend:
+  - changed-files:
       - any-glob-to-any-file:
-        - .github/**
-        - scripts/**
-        - .gitignore
-        - .pre-commit-config.yaml
-      - all-globs-to-all-files:
-        - '!./**/*.md'
-        - '!frontend/**'
-        - '!backend/**'
+          - frontend/**
+
+user-service:
+  - changed-files:
+      - any-glob-to-any-file:
+          - services/user-service/**
+
+product-service:
+  - changed-files:
+      - any-glob-to-any-file:
+          - services/product-service/**
+
+order-service:
+  - changed-files:
+      - any-glob-to-any-file:
+          - services/order-service/**

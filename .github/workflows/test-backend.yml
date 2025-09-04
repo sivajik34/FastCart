@@ -1,4 +1,4 @@
-name: Test Backend
+name: Test Microservices
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
       - synchronize
 
 jobs:
-  test-backend:
+  test-user-service:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,17 +25,77 @@ jobs:
           version: "0.4.15"
           enable-cache: true
       - run: docker compose down -v --remove-orphans
-      - run: docker compose up -d db mailcatcher
+      - run: docker compose up -d user-db
       - name: Migrate DB
         run: uv run bash scripts/prestart.sh
-        working-directory: backend
+        working-directory: services/user-service
       - name: Run tests
         run: uv run bash scripts/tests-start.sh "Coverage for ${{ github.sha }}"
-        working-directory: backend
+        working-directory: services/user-service
       - run: docker compose down -v --remove-orphans
       - name: Store coverage files
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-html
-          path: backend/htmlcov
+          name: coverage-html-user-service
+          path: services/user-service/htmlcov
+          include-hidden-files: true
+
+  test-order-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.4.15"
+          enable-cache: true
+      - run: docker compose down -v --remove-orphans
+      - run: docker compose up -d order-db
+      - name: Migrate DB
+        run: uv run bash scripts/prestart.sh
+        working-directory: services/order-service
+      - name: Run tests
+        run: uv run bash scripts/tests-start.sh "Coverage for ${{ github.sha }}"
+        working-directory: services/order-service
+      - run: docker compose down -v --remove-orphans
+      - name: Store coverage files
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html-order-service
+          path: services/order-service/htmlcov
+          include-hidden-files: true
+
+  test-cart-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.4.15"
+          enable-cache: true
+      - run: docker compose down -v --remove-orphans
+      - run: docker compose up -d cart-db
+      - name: Migrate DB
+        run: uv run bash scripts/prestart.sh
+        working-directory: services/cart-service
+      - name: Run tests
+        run: uv run bash scripts/tests-start.sh "Coverage for ${{ github.sha }}"
+        working-directory: services/cart-service
+      - run: docker compose down -v --remove-orphans
+      - name: Store coverage files
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html-cart-service
+          path: services/cart-service/htmlcov
           include-hidden-files: true

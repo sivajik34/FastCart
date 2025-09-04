@@ -12,17 +12,25 @@ on:
 jobs:
   lint-backend:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [user-service, product-service, order-service]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
           version: "0.4.15"
           enable-cache: true
-      - run: uv run bash scripts/lint.sh
-        working-directory: backend
+
+      - name: Run linter
+        run: uv run bash scripts/lint.sh
+        working-directory: services/${{ matrix.service }}

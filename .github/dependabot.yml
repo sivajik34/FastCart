@@ -1,36 +1,66 @@
 version: 2
 updates:
+  # --------------------
   # GitHub Actions
+  # --------------------
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: daily
     commit-message:
       prefix: ⬆
-  # Python uv
+
+  # --------------------
+  # Python (uv / pip) per microservice
+  # --------------------
   - package-ecosystem: uv
-    directory: /backend
+    directory: /services/user-service
     schedule:
       interval: daily
     commit-message:
       prefix: ⬆
-  # npm
+
+  - package-ecosystem: uv
+    directory: /services/product-service
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: ⬆
+
+  - package-ecosystem: uv
+    directory: /services/order-service
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: ⬆
+
+  # --------------------
+  # npm (frontend)
+  # --------------------
   - package-ecosystem: npm
     directory: /frontend
     schedule:
       interval: daily
     commit-message:
       prefix: ⬆
-  # Docker
+
+  # --------------------
+  # Dockerfiles
+  # --------------------
   - package-ecosystem: docker
     directories:
-      - /backend
+      - /services/user-service
+      - /services/product-service
+      - /services/order-service
       - /frontend
     schedule:
       interval: weekly
     commit-message:
       prefix: ⬆
+
+  # --------------------
   # Docker Compose
+  # --------------------
   - package-ecosystem: docker-compose
     directory: /
     schedule:
