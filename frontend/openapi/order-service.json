@@ -1,0 +1,1 @@
+{"openapi": "3.1.0", "info": {"title": "Order-Service", "version": "0.1.0"}, "paths": {"/orders/utils/health-check/": {"get": {"tags": ["utils"], "summary": "Health Check", "operationId": "utils-health_check", "responses": {"200": {"description": "Successful Response", "content": {"application/json": {"schema": {"type": "boolean", "title": "Response Utils-Health Check"}}}}}}}}}

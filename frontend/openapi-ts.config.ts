@@ -2,8 +2,8 @@ import { defineConfig } from "@hey-api/openapi-ts"
 
 export default defineConfig({
   client: "legacy/axios",
-  input: "./openapi.json",
-  output: "./src/client",
+  input: "./openapi/order-service.json",
+  output: "./src/client/order-service",
   // exportSchemas: true,
   plugins: [
     {

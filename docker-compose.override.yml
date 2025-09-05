@@ -1,4 +1,5 @@
-services:
+services: 
+
   # Traefik reverse proxy
   proxy:
     image: traefik:3.0
@@ -138,11 +139,12 @@ services:
     build:
       context: ./frontend
       args:
-        - VITE_API_URL=http://localhost:8001
+        - VITE_API_URL=http://localhost:8000
         - NODE_ENV=development
     restart: "no"
     ports:
       - "5173:80"
+      
 
   playwright:
     build:
@@ -170,10 +172,7 @@ services:
     ports:
       - "9323:9323"
 
-volumes:
-  user-db-data:
-  product-db-data:
-  order-db-data:
+
 
 networks:
   traefik-public:
