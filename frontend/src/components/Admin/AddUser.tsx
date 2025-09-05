@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 
-import { type UserCreate, UsersService } from "@/client"
+import { type UserCreate, UsersService } from "@/client/user-service"
 import type { ApiError } from "@/client/core/ApiError"
 import useCustomToast from "@/hooks/useCustomToast"
 import { emailPattern, handleError } from "@/utils"

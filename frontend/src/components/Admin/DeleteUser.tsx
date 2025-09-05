@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { FiTrash2 } from "react-icons/fi"
 
-import { UsersService } from "@/client"
+import { UsersService } from "@/client/user-service"
 import {
   DialogActionTrigger,
   DialogBody,

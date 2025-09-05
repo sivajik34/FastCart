@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { FiTrash2 } from "react-icons/fi"
 
-import { ItemsService } from "@/client"
+import { ItemsService } from "@/client/product-service"
 import {
   DialogActionTrigger,
   DialogBody,
@@ -27,7 +27,8 @@ const DeleteItem = ({ id }: { id: string }) => {
   } = useForm()
 
   const deleteItem = async (id: string) => {
-    await ItemsService.deleteItem({ id: id })
+    await ItemsService.deleteItem({ args: {},
+  itemId: id ,kwargs: {}})
   }
 
   const mutation = useMutation({

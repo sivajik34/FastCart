@@ -7,7 +7,7 @@ import {
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { FiLock, FiUser } from "react-icons/fi"
 
-import type { UserRegister } from "@/client"
+import type { UserRegister } from "@/client/user-service"
 import { Button } from "@/components/ui/button"
 import { Field } from "@/components/ui/field"
 import { InputGroup } from "@/components/ui/input-group"

@@ -4,7 +4,7 @@ import { Link as RouterLink } from "@tanstack/react-router"
 import { FiBriefcase, FiHome, FiSettings, FiUsers } from "react-icons/fi"
 import type { IconType } from "react-icons/lib"
 
-import type { UserPublic } from "@/client"
+import type { UserPublic } from "@/client/user-service"
 
 const items = [
   { icon: FiHome, title: "Dashboard", path: "/" },

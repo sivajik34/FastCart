@@ -14,7 +14,7 @@ import {
 import { useState } from "react"
 import { FaExchangeAlt } from "react-icons/fa"
 
-import { type UserPublic, type UserUpdate, UsersService } from "@/client"
+import { type UserPublic, type UserUpdate, UsersService } from "@/client/user-service"
 import type { ApiError } from "@/client/core/ApiError"
 import useCustomToast from "@/hooks/useCustomToast"
 import { emailPattern, handleError } from "@/utils"
