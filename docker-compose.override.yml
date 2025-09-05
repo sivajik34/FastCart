@@ -140,6 +140,9 @@ services:
       context: ./frontend
       args:
         - VITE_API_URL=http://localhost:8000
+        - VITE_USER_API_URL=http://user-service:8000
+        - VITE_PRODUCT_API_URL=http://product-service:8000
+        - VITE_ORDER_API_URL=http://order-service:8000
         - NODE_ENV=development
     restart: "no"
     ports:

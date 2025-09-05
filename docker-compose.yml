@@ -195,10 +195,22 @@ services:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
       - traefik.constraint-label=traefik-public
-      - traefik.http.routers.user.rule=PathPrefix(`/users`)
-      - traefik.http.routers.user.entrypoints=https
-      - traefik.http.routers.user.tls.certresolver=le
-      - traefik.http.services.user.loadbalancer.server.port=8000
+
+      # Service port
+      - traefik.http.services.user-service.loadbalancer.server.port=8000
+
+      # HTTP Router
+      - traefik.http.routers.user-service-http.rule= PathPrefix('/users')
+      - traefik.http.routers.user-service-http.entrypoints=http
+      
+
+      # HTTPS Router
+      - traefik.http.routers.user-service-https.rule= PathPrefix('/users')
+      - traefik.http.routers.user-service-https.entrypoints=https
+      - traefik.http.routers.user-service-https.tls=true
+      - traefik.http.routers.user-service-https.tls.certresolver=le
+
+      - traefik.http.routers.user-service-http.middlewares=https-redirect
 
   product-service:
     build: ./services/product-service
@@ -242,10 +254,20 @@ services:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
       - traefik.constraint-label=traefik-public
-      - traefik.http.routers.product.rule=PathPrefix(`/products`)
-      - traefik.http.routers.product.entrypoints=https
-      - traefik.http.routers.product.tls.certresolver=le
-      - traefik.http.services.product.loadbalancer.server.port=8000
+
+      # Service port
+      - traefik.http.services.product-service.loadbalancer.server.port=8000
+
+      # HTTP Router
+      - traefik.http.routers.product-service-http.rule=  PathPrefix(`/products`)
+      - traefik.http.routers.product-service-http.entrypoints=http
+      - traefik.http.routers.product-service-http.middlewares=https-redirect
+
+      # HTTPS Router
+      - traefik.http.routers.product-service-https.rule=PathPrefix(`/products`)
+      - traefik.http.routers.product-service-https.entrypoints=https
+      - traefik.http.routers.product-service-https.tls=true
+      - traefik.http.routers.product-service-https.tls.certresolver=le
 
   order-service:
     build: ./services/order-service
@@ -289,10 +311,20 @@ services:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
       - traefik.constraint-label=traefik-public
-      - traefik.http.routers.order.rule=PathPrefix(`/orders`)
-      - traefik.http.routers.order.entrypoints=https
-      - traefik.http.routers.order.tls.certresolver=le
-      - traefik.http.services.order.loadbalancer.server.port=8000
+
+      # Service port
+      - traefik.http.services.order-service.loadbalancer.server.port=8000
+
+      # HTTP Router
+      - traefik.http.routers.order-service-http.rule=PathPrefix(`/orders`)
+      - traefik.http.routers.order-service-http.entrypoints=http
+      - traefik.http.routers.order-service-http.middlewares=https-redirect
+
+      # HTTPS Router
+      - traefik.http.routers.order-service-https.rule= PathPrefix(`/orders`)
+      - traefik.http.routers.order-service-https.entrypoints=https
+      - traefik.http.routers.order-service-https.tls=true
+      - traefik.http.routers.order-service-https.tls.certresolver=le
 
   # --------------------
   # Frontend
@@ -311,10 +343,20 @@ services:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
       - traefik.constraint-label=traefik-public
+
+      # Service port
       - traefik.http.services.frontend.loadbalancer.server.port=80
-      - traefik.http.routers.frontend.rule=Host(`dashboard.${DOMAIN}`)
-      - traefik.http.routers.frontend.entrypoints=https
-      - traefik.http.routers.frontend.tls.certresolver=le
+
+      # HTTP Router
+      - traefik.http.routers.frontend-http.rule=Host(`dashboard.${DOMAIN}`)
+      - traefik.http.routers.frontend-http.entrypoints=http
+      - traefik.http.routers.frontend-http.middlewares=https-redirect
+
+      # HTTPS Router
+      - traefik.http.routers.frontend-https.rule=Host(`dashboard.${DOMAIN}`)
+      - traefik.http.routers.frontend-https.entrypoints=https
+      - traefik.http.routers.frontend-https.tls=true
+      - traefik.http.routers.frontend-https.tls.certresolver=le
   
 
 # --------------------
