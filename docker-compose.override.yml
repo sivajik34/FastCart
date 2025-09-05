@@ -40,6 +40,11 @@ services:
       - "5433:5432"
     volumes:
       - user-db-data:/var/lib/postgresql/data
+      
+  adminer:
+    restart: "no"
+    ports:
+      - "8080:8080"    
 
   product-db:
     image: postgres:17
